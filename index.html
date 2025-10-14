@@ -22,7 +22,6 @@
     align-items: center;
   }
   h1 { text-align: center; font-size: 1.7rem; margin: 0 0 10px; }
-  .hint { color:#666; font-size:.9rem; text-align:center; margin:0 0 16px; }
   form {
     background: #fff;
     border: 1px solid #ddd;
@@ -33,9 +32,8 @@
     box-sizing: border-box;
   }
   .pregunta { margin: 18px 0; }
-  .titulo { font-weight: 700; margin-bottom: 8px; }
+  label { font-weight: 500; margin-bottom: 8px; display:block; }
   .opciones { display: flex; flex-direction: column; gap: 4px; }
-  .opciones label { display: flex; align-items: center; gap: 8px; }
   input[type="radio"] { transform: scale(1.2); cursor:pointer; }
   button {
     width: 100%;
@@ -51,20 +49,21 @@
     display:block;
   }
   button:hover { background: var(--accent-hover); }
-  #msg { text-align: center; font-weight: 700; }
   @media (max-width: 600px) {
     body { padding: 12px; }
     h1 { font-size: 1.4rem; }
     form { padding: 12px; }
-    .titulo { font-size: 1rem; }
     label, button { font-size: 0.95rem; }
   }
 </style>
 </head>
 <body>
 
-<form id="encuesta" action="https://formspree.io/f/xblzpakk" method="POST">
-  <input type="hidden" name="form-name" value="salta-10oct25" />
+<h1>Encuesta SALTA 10OCT25</h1>
+
+<form action="https://formspree.io/f/xblzpakk" method="POST">
+  <input type="hidden" name="_language" value="es">
+  <input type="hidden" name="_subject" value="Nuevo envío - SALTA 10OCT25 DAMIAN 01">
 
   <!-- 1 -->
   <div class="pregunta">
@@ -228,7 +227,7 @@
       <label><input type="radio" name="14" value="Flavia Royón - Primero Los Salteños"> Flavia Royón - Primero Los Salteños</label>
       <label><input type="radio" name="14" value="María Emilia Orozco - La Libertad Avanza"> María Emilia Orozco - La Libertad Avanza</label>
       <label><input type="radio" name="14" value="Natalio Iglesias - Unión Cívica Radical"> Natalio Iglesias - Unión Cívica Radical</label>
-      <label><input type="radio" name="14" value="Sergio 'Oso' Leavy - Partido de la Victoria"> Sergio “Oso” Leavy - Partido de la Victoria</label>
+      <label><input type="radio" name="14" value="Sergio 'Oso' Leavy - Partido de la Victoria"> Sergio "Oso" Leavy - Partido de la Victoria</label>
       <label><input type="radio" name="14" value="Claudio Del Pla - Frente de Izquierda"> Claudio Del Pla - Frente de Izquierda</label>
       <label><input type="radio" name="14" value="Marcos Tognolini - Movimiento al Socialismo"> Marcos Tognolini - Movimiento al Socialismo</label>
       <label><input type="radio" name="14" value="Francisco Solano Martín Rivas Vila - Partido Renacer"> Francisco Solano Martín Rivas Vila - Partido Renacer</label>
@@ -319,46 +318,7 @@
   </div>
 
   <button type="submit">Enviar encuesta</button>
-  <p id="msg"></p>
 </form>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  const msg = document.getElementById("msg");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    msg.textContent = "Enviando...";
-    msg.style.color = "#555";
-
-    const data = new FormData(form);
-    const entries = Object.fromEntries(data.entries());
-    console.log("📋 Respuestas del formulario:", entries);
-
-    if (!data.has("form-name")) {
-      data.append("form-name", form.getAttribute("name"));
-    }
-
-    try {
-      const res = await fetch("/", { method: "POST", body: data });
-
-      if (res.ok) {
-        msg.textContent = "✅ Formulario enviado correctamente.";
-        msg.style.color = "green";
-        form.reset();
-      } else {
-        msg.textContent = "❌ Error al enviar (HTTP " + res.status + ").";
-        msg.style.color = "red";
-      }
-    } catch (err) {
-      console.error("Error de conexión:", err);
-      msg.textContent = "⚠️ No se pudo conectar. Intenta más tarde.";
-      msg.style.color = "red";
-    }
-  });
-});
-</script>
 
 </body>
 </html>
